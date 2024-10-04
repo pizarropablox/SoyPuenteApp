@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.duoc.soypuenteapp.AuthViewModel
+import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
 @Composable
@@ -20,7 +22,7 @@ fun HomePage(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel,
-    context: Context // Aceptamos el contexto aquí
+    context: Context
 ) {
     var textToSpeak by remember { mutableStateOf("") }
     var tts: TextToSpeech? by remember { mutableStateOf(null) }
@@ -64,6 +66,20 @@ fun HomePage(
             }
         }) {
             Text(text = "Reproducir Texto")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botón de Cerrar Sesión
+        TextButton(onClick = {
+            // Cerrar sesión de Firebase
+            FirebaseAuth.getInstance().signOut()
+            // Navegar al login
+            navController.navigate("login") {
+                popUpTo(0) // Esto limpia el stack de navegación para evitar regresar al home
+            }
+        }) {
+            Text(text = "Cerrar sesión")
         }
     }
 
