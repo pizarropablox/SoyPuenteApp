@@ -80,7 +80,7 @@ fun LoginPage(modifier: Modifier = Modifier, navController: NavController, authV
         TextButton(onClick = {
 
         }) {
-            Text(text = "¿No tienes una cuenta?, ¡Registrate!")
+            Text(text = "¿No tienes una cuenta?, ¡Registrate!.")
         }
     }
 }
