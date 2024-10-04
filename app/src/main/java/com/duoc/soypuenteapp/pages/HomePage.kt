@@ -81,6 +81,13 @@ fun HomePage(
         }) {
             Text(text = "Cerrar sesión")
         }
+        TextButton(onClick = {
+            navController.navigate("administration") {
+                popUpTo(0) // Limpia el stack de navegación
+            }
+        }) {
+            Text(text = "Administración de cuentas")
+        }
     }
 
     // Cleanup TextToSpeech cuando el Composable se elimina
