@@ -64,7 +64,6 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
         mutableStateOf("")
     }
 
-
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -86,7 +85,7 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
                 Text(text = "Correo")
             }
         )
-        //CONTRASEÑA
+        // CONTRASEÑA
         OutlinedTextField(
             value = password,
             onValueChange = {
@@ -109,7 +108,7 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
             visualTransformation = PasswordVisualTransformation()
         )
 
-        //NOMBRE
+        // NOMBRE
         OutlinedTextField(
             value = nombre,
             onValueChange = {
@@ -135,35 +134,40 @@ fun SignupPage(modifier: Modifier = Modifier, navController: NavController, auth
 
         Button(onClick = {
             if (password == confirmPassword) {
-                // Crear usuario con Firebase Authentication
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // Obtener el usuario recién registrado
-                            val user = auth.currentUser
+                if (nombre.isNotEmpty() && direccion.isNotEmpty()) {
+                    // Crear usuario con Firebase Authentication
+                    auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                // Obtener el usuario recién registrado
+                                val user = auth.currentUser
 
-                            // Guardar los datos del usuario en Firestore
-                            val userData = hashMapOf(
-                                "uid" to user?.uid,
-                                "email" to user?.email,
-                                "provider" to "Email/Password",
-                                "creationDate" to System.currentTimeMillis().toString()
+                                // Crear un objeto de la clase Usuario
+                                val usuario = Usuario(
+                                    uid = user?.uid ?: "",
+                                    email = email,
+                                    nombre = nombre,
+                                    direccion = direccion
+                                )
 
-                            )
-
-                            db.collection("usuarios").document(user?.uid!!)
-                                .set(userData)
-                                .addOnSuccessListener {
-                                    Toast.makeText(context, "Usuario registrado y guardado", Toast.LENGTH_SHORT).show()
-                                    navController.navigate("login") // Navegar al login
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(context, "Error al guardar en Firestore", Toast.LENGTH_SHORT).show()
-                                }
-                        } else {
-                            Toast.makeText(context, "Error al registrar en Firebase Auth", Toast.LENGTH_SHORT).show()
+                                // Guardar el objeto Usuario en Firestore
+                                db.collection("usuarios").document(user?.uid!!)
+                                    .set(usuario)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(context, "Usuario registrado y guardado", Toast.LENGTH_SHORT).show()
+                                        navController.navigate("login")
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(context, "Error al guardar en Firestore", Toast.LENGTH_SHORT).show()
+                                    }
+                            } else {
+                                val errorMessage = task.exception?.message ?: "Error desconocido en Firebase Auth"
+                                Toast.makeText(context, "Error al registrar en Firebase Auth: $errorMessage", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    }
+                } else {
+                    Toast.makeText(context, "El nombre y la dirección no pueden estar vacíos", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             }
