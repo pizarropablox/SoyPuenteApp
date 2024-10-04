@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "906163248724",
+    "project_id": "soypuenteapp-81f3e",
+    "storage_bucket": "soypuenteapp-81f3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906163248724:android:ce8b1144b31aac6de697c1",
+        "android_client_info": {
+          "package_name": "com.duoc.soypuenteapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYeJtO5RJwuTcWocxD9f76ByhZc5XpKbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
