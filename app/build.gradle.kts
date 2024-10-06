@@ -63,11 +63,27 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore.ktx)
+
+    // Dependencias para pruebas unitarias
     testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:3.11.2") // Mockito para pruebas unitarias
+    testImplementation("androidx.arch.core:core-testing:2.1.0") // InstantTaskExecutorRule
+
+    // Dependencias para pruebas instrumentadas de UI con Compose
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.ui.test.junit4) // Pruebas de UI de Compose
+
+    // Para herramientas de depuración y pruebas en tiempo de ejecución
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Si estás usando el LiveData en tus ViewModel
+    testImplementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    testImplementation("androidx.lifecycle:lifecycle-runtime-testing:2.4.1") // Para probar LiveData
+
+    // Pruebas de ViewModel
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+
 }
